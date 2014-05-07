@@ -1,0 +1,9 @@
+SITENAME = 'LDAPMNGR'
+SECRET_KEY = 'my-super-dupa-key'
+
+LDAP_SERVER = 'localhost'
+LDAP_USER_BASE = 'ou=user,dc=foobar,dc=de'
+LDAP_GROUP_BASE = 'ou=groups,dc=foobar,dc=de'
+LDAP_ADMIN = 'cn=admin,dc=foobar,dc=de'
+
+LDAP_LOGIN_GROUP = 'it-admins'

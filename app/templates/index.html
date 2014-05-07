@@ -1,0 +1,32 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='css/style.css')}}">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+{% endblock %}
+
+{% block title %}{{ config.SITENAME }}{% endblock %}
+
+{% block content %}
+<div class="container">
+	<h1 style="font-size:600%"><strong><p class="text-center">{{ config.SITENAME }}</p></strong></h1>
+	{% with messages = get_flashed_messages(with_categories=true) %}
+		{% if messages %}
+			{% for category, message in messages %}
+			<div class="alert alert-{{ category }}">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<strong>{{ message }}</strong>
+			</div>
+			{% endfor %}
+		{% endif %}
+	{% endwith %}
+	<form class="form" role="form" action="" method="POST" enctype="login">
+		{{ form.hidden_tag() }}
+		{{ wtf.form_field(form.username) }}
+		{{ wtf.form_field(form.password) }}
+		<p><button type="submit" class="btn btn-primary btn-block" value="name">Submit</button></p>
+	</form>
+</div>
+{% endblock %}

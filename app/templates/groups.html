@@ -1,0 +1,87 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='css/style.css')}}">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+{% endblock %}
+
+{% block title %}{{ config.SITENAME }}{% endblock %}
+
+{% block content %}
+{% include "navbar.html" %}
+<div class="container">
+	<div class="page-header">
+		<h1><strong>GROUPS</strong></h1>
+	</div>
+	{% with messages = get_flashed_messages(with_categories=true) %}
+		{% if messages %}
+			{% for category, message in messages %}
+			<div class="alert alert-{{ category }}">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<strong>{{ message }}</strong>
+			</div>
+			{% endfor %}
+		{% endif %}
+	{% endwith %}
+	<h2>ADD NEW</h2>
+	<form class="form" role="form" action="" method="POST" enctype="login">
+		{{ new_group_form.hidden_tag() }}
+		{{ wtf.form_field(new_group_form.groupname) }}
+		{{ wtf.form_field(new_group_form.username) }}
+		<h3>ADMIN PASSWORD</h3>
+		{{ wtf.form_field(new_group_form.admin_password) }}
+		<br />
+		<p><button type="submit" class="btn btn-primary btn-block" value="name">Submit</button></p>
+	</form>
+	<hr />
+	<h2>GROUPLIST</h2>
+	<div class="panel-group" id="accordion">
+		{% for group in groups %}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordion" href="#{{ group }}">{{ group }}</a>
+				</h4>
+			</div>
+			<div id="{{ group }}" class="panel-collapse collapse">
+				<div class="panel-body">
+					<form class="form-inline" role="form" action="/group/{{ group }}/add-member" method="POST" enctype="login">
+						{{ new_group_form.hidden_tag() }}
+						{{ wtf.form_field(new_group_member_form.username, placeholder="Username") }}
+						{{ wtf.form_field(new_group_member_form.admin_password, placeholder="Admin password") }}
+						<button type="submit" class="btn btn-primary" value="name">Add</button>
+					</form>
+					<hr />
+					<table class="table">
+						<thead>
+							<tr>
+								<th>REMOVE</th>
+								<th>USERNAME</th>
+								<th>FIRST NAME</th>
+								<th>LAST NAME</th>
+								<th>EMAIL</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for user in groups[group] %}
+							<tr>
+								<td><a href="/group/{{ group }}/del-user/{{ user[0] }}"><i class="fa fa-minus"></i></a></td>
+								<td>{{ user[0] }}</td>
+								<td>{{ user[1] }}</td>
+								<td>{{ user[2] }}</td>
+								<td>{{ user[3] }}</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+					<hr />
+					<p class="text-right"><a href="/group/{{ group }}/del-group"><button type="button" class="btn btn-danger btn-xs">DELETE GROUP</button></a></p>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}

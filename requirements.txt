@@ -1,0 +1,16 @@
+Flask==0.10.1
+Flask-Bootstrap==3.1.1.2
+Flask-Login==0.2.10
+Flask-WTF==0.9.5
+Jinja2==2.7.2
+MarkupSafe==0.21
+Unidecode==0.04.14
+WTForms==1.0.5
+Werkzeug==0.9.4
+argparse==1.2.1
+distribute==0.6.24
+itsdangerous==0.24
+python-ldap==2.4.15
+requests==1.2.3
+simpleldap==0.7.1
+wsgiref==0.1.2

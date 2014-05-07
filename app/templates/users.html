@@ -1,0 +1,64 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='css/style.css')}}">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+{% endblock %}
+
+{% block title %}{{ config.SITENAME }}{% endblock %}
+
+{% block content %}
+{% include "navbar.html" %}
+<div class="container">
+	<div class="page-header">
+		<h1><strong>USERS</strong></h1>
+	</div>
+	{% with messages = get_flashed_messages(with_categories=true) %}
+		{% if messages %}
+			{% for category, message in messages %}
+			<div class="alert alert-{{ category }}">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<strong>{{ message }}</strong>
+			</div>
+			{% endfor %}
+		{% endif %}
+	{% endwith %}
+	<h2>ADD NEW</h2>
+	<form class="form" role="form" action="" method="POST" enctype="login">
+		{{ form.hidden_tag() }}
+		{{ wtf.form_field(form.username) }}
+		{{ wtf.form_field(form.first_name) }}
+		{{ wtf.form_field(form.last_name) }}
+		{{ wtf.form_field(form.email) }}
+		{{ wtf.form_field(form.password) }}
+		<h3>ADMIN PASSWORD</h3>
+		{{ wtf.form_field(form.admin_password) }}
+		<br />
+		<p><button type="submit" class="btn btn-primary btn-block" value="name">Submit</button></p>
+	</form>
+	<hr />
+	<h2>USERLIST</h2>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>USERNAME</th>
+				<th>FIRST NAME</th>
+				<th>LAST NAME</th>
+				<th>EMAIL</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for user in users %}
+			<tr>
+				<td><a href="/user/{{ user[0] }}">{{ user[0] }}</a></td>
+				<td>{{ user[1] }}</td>
+				<td>{{ user[2] }}</td>
+				<td>{{ user[3] }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock %}

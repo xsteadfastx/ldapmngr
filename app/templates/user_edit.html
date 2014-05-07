@@ -1,0 +1,41 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='css/style.css')}}">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+{% endblock %}
+
+{% block title %}{{ config.SITENAME }}{% endblock %}
+
+{% block content %}
+{% include "navbar.html" %}
+<div class="container">
+	<div class="page-header">
+		<h1><strong>EDIT:</strong> {{ attributes[0] }}</h1>
+	</div>
+	{% with messages = get_flashed_messages(with_categories=true) %}
+		{% if messages %}
+			{% for category, message in messages %}
+			<div class="alert alert-{{ category }}">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<strong>{{ message }}</strong>
+			</div>
+			{% endfor %}
+		{% endif %}
+	{% endwith %}
+	<form class="form" role="form" action="" method="POST" enctype="login">
+		{{ form.hidden_tag() }}
+		{{ wtf.form_field(form.email) }}
+		{{ wtf.form_field(form.password) }}
+		<h3>ADMIN PASSWORD</h3>
+		{{ wtf.form_field(form.admin_password) }}
+		<br />
+		<p><button type="submit" class="btn btn-primary btn-block" value="name">Submit</button></p>
+	</form>
+	<hr />
+	<h2><p class="text-danger">DANGERZONE</p></h2>
+	<a href="/user/{{ username }}/delete"><button type="button" class="btn btn-danger btn-block">Delete user</button></a>
+</div>
+{% endblock %}
